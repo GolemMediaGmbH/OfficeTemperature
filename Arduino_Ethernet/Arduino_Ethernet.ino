@@ -3,41 +3,44 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-// One Wire pin for temperatur sensor
+// Pin für den Thermometer-Sensor
 #define ONE_WIRE_BUS 2
-#define LED3
 
-// message related
-#define PERIOD 30l // message period in minutes
+// Pin für die Info-LED
+#define LED 3
+
+// Zeitperiode, alle 30 Minuten
+#define PERIOD 30l 
+
+// Die URL sollte über das Formular erzeugt werden:
+// http://www.golem.de/projekte/ot/tech.php#urlgen
+// * Der Servername darf nicht enthalten sein
+// * "Temperatur anhängen" auswählen
+#define URL ""
+
 #define SERVER "www.golem.de"
-#define PATH "/projekte/ot/temp.php?"
 
-// adjust to your setting
-// see http://www.golem.de/projekte/ot/tech.php
-#define TOKEN "<YOUR_TOKEN>" 
-#define DBG "1"
-#define PARAMS "&type=ard" // additional parameter
-
-
-// Init one wire and
+// Temperaturfühler initieren
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
-
-// 
 DeviceAddress thermometer;
+
+// Netzwerk-Daten
 EthernetClient client;
+
+// MAC-Adresse des Ethernet-Shields, bei Bedarf eigene setzen
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 byte errormode = 0;
 
 void setup(void)
 {
-  Serial.begin(9600);
+
   pinMode(LED, OUTPUT);
     
   initEthernet();
 
-  // thermometer setup
+  // Thermometer-Sensor finden
   sensors.begin();
   sensors.getAddress(thermometer, 0);   
   sensors.setResolution(thermometer, 12);
@@ -45,10 +48,10 @@ void setup(void)
  }
 
 void initEthernet() {
+  
   digitalWrite(LED, HIGH);
   if(0 == Ethernet.begin(mac)) {
-    errormode = 1;
-    Serial.println("no ether");
+    errormode = 1; 
   };
   
   delay(1000);
@@ -60,17 +63,12 @@ void sendTemperature(DeviceAddress deviceAddress)
   client.stop();
   
   float tempC = sensors.getTempC(deviceAddress); 
+
   if(1 == client.connect(SERVER, 80)) {
     errormode = 0;
     String cmd = "GET ";
-    cmd += PATH;
-    cmd += "token=";
-    cmd += TOKEN;
-    cmd += "&dbg=";
-    cmd += DBG;
-    cmd += "&temp=";
+    cmd += URL;
     cmd += tempC;
-    cmd += PARAMS;
     cmd += " HTTP/1.0";
 
     client.println(cmd);
@@ -92,7 +90,7 @@ void loop(void)
   if(errtime < millis()) {
     errtime = millis() + 20l * 1000l;
 
-    if(1 == errormode) {
+    if(1 == errormode) { // LED blinkt im Fehlerfall
         for(byte i = 0; i < 4; i++) {
           digitalWrite(LED, HIGH);
           delay(1000);
@@ -110,5 +108,3 @@ void loop(void)
     
   }
 }
-
-

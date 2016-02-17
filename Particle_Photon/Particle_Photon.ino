@@ -1,26 +1,25 @@
-// This #include statement was automatically added by the Particle IDE.
 #include "HttpClient/HttpClient.h"
-
-// This #include statement was automatically added by the Particle IDE.
 #include "OneWire/OneWire.h"
-
-// This #include statement was automatically added by the Particle IDE.
 #include "spark-dallas-temperature/spark-dallas-temperature.h"
 
+// Pin für den Thermometer-Sensor
 #define ONE_WIRE_BUS D4
+
+// Pin für die Info-LED
 #define LED D5
 
-// message related
+// Zeitperiode, alle 30 Minuten
 #define PERIOD 30l // message period in minutes
+
+// Die URL sollte über das Formular erzeugt werden:
+// http://www.golem.de/projekte/ot/tech.php#urlgen
+// * Der Servername muss enthalten sein
+// * "Temperatur einfügen" auswählen
+#define URL ""
+
 #define SERVER "www.golem.de"
-#define PATH "/projekte/ot/temp.php?"
 
-// adjust to your setting
-// see http://www.golem.de/projekte/ot/tech.php
-#define TOKEN "<YOUR_TOKEN>" 
-#define DBG "1"
-#define PARAMS "&type=wifimuc" // additional parameter
-
+// Temperaturfühler initieren
 OneWire ds(ONE_WIRE_BUS);
 DallasTemperature dt(&ds);
 
@@ -32,15 +31,13 @@ http_header_t headers[] = {
 };
    
 void setup() {
-    
+   
     pinMode(LED, OUTPUT);
     request.hostname = SERVER;
     request.port = 80;
 
 }
 
-
-// Now for the loop.
 
 void loop() {
     static unsigned int nextTime = 0;
@@ -60,7 +57,7 @@ void loop() {
         dt.requestTemperatures();
         float ct = dt.getTempCByIndex(0);
         
-        String path = String::format("%stoken=%s&temp=%f&dbg=%s%s", PATH, TOKEN, ct, DBG, PARAMS);
+        String path = String::format(URL, ct);
   
         request.path = path;
         request.body = "";

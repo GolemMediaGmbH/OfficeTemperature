@@ -68,8 +68,8 @@ void loop() {
   if(sensortime < millis()) {
     sensortime = millis() + PERIOD * 60l * 1000l;
     
-    sensors.requestTemperatures(); // Send the command to get temperatures
-    sendTemperatur(thermometer); // Use a simple function to print out the data
+    sensors.requestTemperatures(); 
+    sendTemperatur(thermometer);
   }
 
 }

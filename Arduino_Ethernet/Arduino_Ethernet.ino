@@ -13,7 +13,7 @@
 #define PERIOD 30l 
 
 // Die URL sollte über das Formular erzeugt werden:
-// http://www.golem.de/projekte/ot/tech.php#urlgen
+// http://www.golem.de/projekte/ot/doku.php#urlgen
 // * Der Servername darf nicht enthalten sein
 // * "Temperatur anhängen" auswählen
 #define URL ""

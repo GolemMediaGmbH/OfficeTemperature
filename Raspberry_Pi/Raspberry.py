@@ -6,7 +6,7 @@
 import re, os, urllib2
 import RPi.GPIO as GPIO
 
-# Benutzen Sie das Formular auf http://www.golem.de/projekte/ot/tech.php#urlgen
+# Benutzen Sie das Formular auf http://www.golem.de/projekte/ot/doku.php#urlgen
 # um die URL zu generieren
 # Erforderliche Optionen:
 # - "Servernamen einfuegen" auswaehlen

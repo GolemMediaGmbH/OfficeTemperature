@@ -26,6 +26,7 @@ void setup(void)
 {
   // Steuert den ESP8266
   // aeltere Modelle arbeiten eventuell nur mit 9600
+  delay(5000);
   Serial.begin(115200);
 
   // finde Temperatursensor

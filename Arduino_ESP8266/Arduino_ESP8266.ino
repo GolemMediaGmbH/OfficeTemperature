@@ -25,8 +25,8 @@ DeviceAddress thermometer;
 void setup(void)
 {
   // Steuert den ESP8266
-  Serial.begin(9600);
-  initEsp();
+  // aeltere Modelle arbeiten eventuell nur mit 9600
+  Serial.begin(115200);
 
   // finde Temperatursensor
   sensors.begin();
@@ -50,18 +50,19 @@ void initEsp() {
   cmd += "\"";
 
   Serial.println(cmd);
-  String result = Serial.readStringUntil('\n');
+  Serial.find("OK\n");
   
   delay(5000);
 }
 
 void sendTemperature(DeviceAddress deviceAddress)
 {
- 
+  initEsp();
+  
   float tempC = sensors.getTempC(deviceAddress); 
 
-//  Serial.print(tempC);
   espCommand("AT+CIPSTART=4,\"TCP\",\"www.golem.de\",80");  
+  
   delay(2000);  
   
   String cmd = "GET ";
@@ -72,17 +73,30 @@ void sendTemperature(DeviceAddress deviceAddress)
   
   Serial.print("AT+CIPSEND=4,");
   Serial.println(cmd.length());
-
+  
+  delay(500);
+  
   if(Serial.find(">")) {
     Serial.println(cmd);
+    while(Serial.available()) {
+      Serial.readString();  
+    }
   }
+  
+  delay(2000);
+  
+  espCommand("AT+CIPCLOSE=4");
+  espCommand("AT+CWQAP");
   
 }
 
-String espCommand(char *cmd) {
+boolean espCommand(char *cmd) {
   Serial.println(cmd);
-  String result = Serial.readStringUntil('\n');
-  return result;
+  if(Serial.find("OK\n")) {
+    return true;
+  }
+  
+  return false;
 }
 
 void loop(void)

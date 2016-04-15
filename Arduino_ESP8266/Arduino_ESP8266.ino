@@ -25,10 +25,12 @@ DeviceAddress thermometer;
 void setup(void)
 {
   // Steuert den ESP8266
-  // aeltere Modelle arbeiten eventuell nur mit 9600
   delay(5000);
+   // aeltere Modelle arbeiten eventuell nur mit 9600
   Serial.begin(115200);
-
+  delay(1000);  
+  initEsp();
+  
   // finde Temperatursensor
   sensors.begin();
   sensors.getAddress(thermometer, 0);   
@@ -41,7 +43,7 @@ void initEsp() {
   delay(1000);  
   espCommand("AT+CWMODE=1");
    delay(1000); 
-  espCommand("AT+CIPMUX=1");
+  espCommand("AT+CIPMUX=0");
   delay(1000);  
 
   String cmd = "AT+CWJAP=\"";
@@ -50,20 +52,25 @@ void initEsp() {
   cmd += PASSWORT;
   cmd += "\"";
 
-  Serial.println(cmd);
-  Serial.find("OK\n");
+  boolean result = false;
+  
+  while(!result) {
+    Serial.println(cmd);
+    if(Serial.find("OK")) {
+        result = true;
+    }
+    
+  }
   
   delay(5000);
 }
 
 void sendTemperature(DeviceAddress deviceAddress)
 {
-  initEsp();
   
   float tempC = sensors.getTempC(deviceAddress); 
 
-  espCommand("AT+CIPSTART=4,\"TCP\",\"www.golem.de\",80");  
-  
+  espCommand("AT+CIPSTART=\"TCP\",\"www.golem.de\",80");  
   delay(2000);  
   
   String cmd = "GET ";
@@ -72,7 +79,7 @@ void sendTemperature(DeviceAddress deviceAddress)
   cmd += " HTTP/1.0\r\n";
   cmd += "Host: www.golem.de\r\n\r\n";
   
-  Serial.print("AT+CIPSEND=4,");
+  Serial.print("AT+CIPSEND=");
   Serial.println(cmd.length());
   
   delay(500);
@@ -86,14 +93,13 @@ void sendTemperature(DeviceAddress deviceAddress)
   
   delay(2000);
   
-  espCommand("AT+CIPCLOSE=4");
-  espCommand("AT+CWQAP");
+  espCommand("AT+CIPCLOSE");
   
 }
 
 boolean espCommand(char *cmd) {
   Serial.println(cmd);
-  if(Serial.find("OK\n")) {
+  if(Serial.find("OK")) {
     return true;
   }
   

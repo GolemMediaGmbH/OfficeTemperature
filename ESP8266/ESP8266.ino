@@ -56,7 +56,11 @@ void sendTemperatur(DeviceAddress deviceAddress)
     client.println(cmd);
     client.println("Host: www.golem.de");
     client.println("Connection: close");
-    client.println();    
+    client.println();
+    
+    delay(2000);
+    
+    client.stop();
     
   }
 }

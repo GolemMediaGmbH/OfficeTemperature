@@ -59,10 +59,9 @@ void initEsp() {
     if(Serial.find("OK")) {
         result = true;
     }
-    
+    delay(5000);
   }
-  
-  delay(5000);
+
 }
 
 void sendTemperature(DeviceAddress deviceAddress)

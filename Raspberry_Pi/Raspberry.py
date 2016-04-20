@@ -23,7 +23,7 @@ pin_led = 11
 def lies_temp(pfad):
 	temp = None
 	try:
-		GPIO.output(11, GPIO.LOW)
+		GPIO.output(pin_led, GPIO.LOW)
 		datei = open(pfad, "r")
 		zeile = datei.readline()
 		if re.match(r"([0-9a-f]{2} ){9}: crc=[0-9a-f]{2} YES", zeile):
@@ -34,7 +34,7 @@ def lies_temp(pfad):
 		datei.close()
 	except IOError:
 		print "Konnte Sensor nicht lesen"
-		GPIO.output(11, GPIO.HIGH)
+		GPIO.output(pin_led, GPIO.HIGH)
 	return temp
 	
 def send_temp(temp):
@@ -43,7 +43,7 @@ def send_temp(temp):
 		result = urllib2.urlopen(send_url);
 	except urllib2.HTTPError as error:
 		print error.code, error.reason
-		GPIO.output(11, GPIO.HIGH)
+		GPIO.output(pin_led, GPIO.HIGH)
 
 if __name__ == '__main__':
 	GPIO.setwarnings(False)

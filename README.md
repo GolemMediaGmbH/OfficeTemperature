@@ -16,3 +16,14 @@ Neben dem vollständigen Programmcodes für Arduino, Raspberry Pi, Particle Phot
 Neben dem jeweiligen Rechner sind nur noch ein Steckbrett, ein Temperatursensor, zwei Widerstände und eine LED nebst Verkabelungsmaterial erforderlich. In unseren bereitgestellten Codebeispielen verwenden wir den populären DS18B20-Sensor für die Temperaturmessung.
 
 Weitere einführende Informationen gibt es im Golem.de-Artikel [Mitmachprojekt: Wie warm ist es in euren Büros?](http://www.golem.de/news/mitmachprojekt-wie-warm-ist-es-in-euren-bueros-1604-120154.html)
+
+Zu folgenden Plattformen sind bereits Anleitungen erschienen:
+
+Raspberry Pi
+http://www.golem.de/news/mitmachprojekt-temperatur-messen-und-senden-mit-dem-raspberry-pi-1604-120188.html
+
+Arduino mit Ethernet-Shield
+http://www.golem.de/news/mitmachprojekt-temperatur-messen-und-senden-mit-dem-arduino-1604-120189.html
+
+Particle Proton
+http://www.golem.de/news/mitmachprojekt-temperatur-messen-und-senden-mit-dem-particle-photon-1604-120240.html

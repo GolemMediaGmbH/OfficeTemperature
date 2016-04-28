@@ -17,6 +17,9 @@ Neben dem jeweiligen Rechner sind nur noch ein Steckbrett, ein Temperatursensor,
 
 Weitere einführende Informationen gibt es im Golem.de-Artikel [Mitmachprojekt: Wie warm ist es in euren Büros?](http://www.golem.de/news/mitmachprojekt-wie-warm-ist-es-in-euren-bueros-1604-120154.html)
 
+Eine Karte von bereits erfassten Städten:
+http://www.golem.de/projekte/ot/map.php
+
 Zu folgenden Plattformen sind bereits Anleitungen erschienen:
 
 Raspberry Pi
@@ -30,3 +33,6 @@ http://www.golem.de/news/mitmachprojekt-temperatur-messen-und-senden-mit-dem-par
 
 ESP8266 & ESP8622 mit Arduino
 http://www.golem.de/news/mitmachprojekt-temperatur-messen-und-versenden-mit-dem-esp8266-1604-120378.html
+
+Netduino-Code wurde beigesteuert von
+https://github.com/NKnusperer

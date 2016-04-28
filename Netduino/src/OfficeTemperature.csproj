@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="DebuggerBrowsableState.cs" />
     <Compile Include="Ds18B20.cs" />
+    <Compile Include="HttpUtility.cs" />
     <Compile Include="OfficeTemperatureConfig.cs" />
     <Compile Include="OneWireBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -44,6 +45,7 @@
     <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="System" />
     <Reference Include="System.IO" />
+    <Reference Include="System.Text.RegularExpressions" />
   </ItemGroup>
   <Import Condition="EXISTS('$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets')" Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
   <Import Condition="!EXISTS('$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets')" Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

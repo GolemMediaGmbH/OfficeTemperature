@@ -59,19 +59,22 @@ namespace OfficeTemperature
 
 		private string BuildGetRequestString(string temperature)
 		{
+
 			return "/projekte/ot/temp.php?" +
-				"dbg=" + (config.TestMode ? "1" : "0") +
-				"&token=" + config.Token +
-				"&city=" + config.CityName +
-				"&zip=" + config.ZipCode +
-				"&country=" + config.CountryCode +
-				"&lat=" + config.Latitude +
-				"&long=" + config.Longitude +
-				"&temp=" + temperature +
-				"&type=ard";
+				HttpUtility.BuildGetRequestUri("dbg", config.TestMode ? "1" : "0")+
+				HttpUtility.BuildGetRequestUri("token", config.Token) +
+				HttpUtility.BuildGetRequestUri("city", HttpUtility.UrlEncode(config.CityName)) +
+				HttpUtility.BuildGetRequestUri("zip", config.ZipCode) +
+				HttpUtility.BuildGetRequestUri("country", config.CountryCode) +
+				HttpUtility.BuildGetRequestUri("lat", config.Latitude) +
+				HttpUtility.BuildGetRequestUri("long", config.Longitude) +
+				HttpUtility.BuildGetRequestUri("temp", temperature) +
+				HttpUtility.BuildGetRequestUri("type", "ard");
 		}
 
-		private static void SendGetRequestToServer(string request)
+
+
+		private static void SendGetRequestToServer(string requestUri)
 		{
 			IPHostEntry host = Dns.GetHostEntry(GolemHostname);
 			IPEndPoint endPoint = new IPEndPoint(host.AddressList[0], 80);
@@ -80,8 +83,8 @@ namespace OfficeTemperature
 				socket.Connect(endPoint);
 				using (var networkStream = new NetworkStream(socket, true))
 				{
-					string command = "GET " + request + " HTTP/1.1\r\nHost: " + endPoint.Address + "\r\n\r\n";
-					var bytes = Encoding.UTF8.GetBytes(command);
+					string request = HttpUtility.BuildGetRequest(requestUri, endPoint.Address.ToString());
+					var bytes = Encoding.UTF8.GetBytes(request);
 					networkStream.Write(bytes, 0, bytes.Length);
 					ReadServerResponseAndCheckStatus(networkStream);
 				}

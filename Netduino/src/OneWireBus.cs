@@ -3,6 +3,9 @@ using Microsoft.SPOT.Hardware;
 
 namespace OfficeTemperature
 {
+	/// <summary>
+	/// https://www.ghielectronics.com/community/codeshare/entry/438
+	/// </summary>
 	internal static class OneWireBus
 	{
 		public enum Family : byte

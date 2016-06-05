@@ -20,26 +20,21 @@ url = ""
 # Tinkerforge-Parameter, Standardwerte
 HOST = 'localhost'
 PORT = 4223
-UID = '' # Brick-UID
+UID = '' # UID des Barometer Bricklets hier eintragen
 
-def lies_temp(host, port, uid):
+def read_temp(host, port, uid):
 	temp = None
 	
 	try:
 		ipcon = IPConnection()
 		b = BrickletBarometer(uid, ipcon)
 		ipcon.connect(host, port)
-	
-		tt = 0.0
-	
-		for i in range(10):
-			tt = tt + b.get_chip_temperature()
+
+		temp = b.get_chip_temperature() / 100.0
 		
 		ipcon.disconnect()
 	except:
 		print("Temperaturabfrage fehlgeschlagen")
-	
-	temp = tt / 1000.0
 	
 	return temp
 
@@ -53,7 +48,7 @@ def send_temp(temp):
 		
 if __name__ == '__main__':
 	
-	temp = lies_temp(HOST, PORT, UID)
+	temp = read_temp(HOST, PORT, UID)
 	
 	if None != temp:
 		send_temp(temp)

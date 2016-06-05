@@ -20,7 +20,7 @@ url = ""
 # Tinkerforge-Parameter, Standardwerte
 HOST = 'localhost'
 PORT = 4223
-UID = 'ett' # Brick-UID
+UID = '' # UID des Temperature Bricklets eintragen
 
 def lies_temp(host, port, uid):
 	temp = None
@@ -30,17 +30,12 @@ def lies_temp(host, port, uid):
 		b = BrickletTemperature(uid, ipcon)
 		ipcon.connect(host, port)
 	
-		tt = 0.0
-	
-		for i in range(10):
-			tt = tt + b.get_temperature()
+		temp = b.get_temperature() / 100.0
 		
 		ipcon.disconnect()
 	except:
 		print("Temperaturabfrage fehlgeschlagen")
-	
-	temp = tt / 1000.0
-	
+		
 	return temp
 
 def send_temp(temp):
